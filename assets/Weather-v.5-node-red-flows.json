@@ -1,0 +1,2405 @@
+[
+    {
+        "id": "10884b5a2a828bfd",
+        "type": "tab",
+        "label": "Weather Station V.5",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "7326f58f9f3c51ee",
+        "type": "sqlite",
+        "z": "10884b5a2a828bfd",
+        "mydb": "823d950ea6c21081",
+        "sqlquery": "msg.topic",
+        "sql": "select * from instwind LIMIT 2400 OFFSET (SELECT COUNT(*) FROM INSTWIND) - 2400",
+        "name": "create INSTWINDtable",
+        "x": 560,
+        "y": 380,
+        "wires": [
+            [
+                "8f316e9cead2fb06"
+            ]
+        ]
+    },
+    {
+        "id": "da383e73892eacbe",
+        "type": "inject",
+        "z": "10884b5a2a828bfd",
+        "name": "Crea la tabella dei dati sul vento",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "CREATE TABLE INSTWIND( TIMESTAMP INT PRIMARY KEY NOT NULL, WIND INT NOT NULL, WINDDIR REAL NOT NULL)",
+        "payload": "",
+        "payloadType": "str",
+        "x": 190,
+        "y": 380,
+        "wires": [
+            [
+                "7326f58f9f3c51ee"
+            ]
+        ]
+    },
+    {
+        "id": "8f316e9cead2fb06",
+        "type": "debug",
+        "z": "10884b5a2a828bfd",
+        "name": "WIND Database",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "9547d7cd864180cc",
+        "type": "inject",
+        "z": "10884b5a2a828bfd",
+        "name": "select * from instwind",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "select * from instwind ORDER BY TIMESTAMP ",
+        "payload": "",
+        "payloadType": "str",
+        "x": 160,
+        "y": 620,
+        "wires": [
+            [
+                "d3af9b655811cca3"
+            ]
+        ]
+    },
+    {
+        "id": "d3af9b655811cca3",
+        "type": "sqlite",
+        "z": "10884b5a2a828bfd",
+        "mydb": "823d950ea6c21081",
+        "sqlquery": "fixed",
+        "sql": "select * from instwind LIMIT 1000 OFFSET (SELECT COUNT(*) FROM INSTWIND) - 1000",
+        "name": "select * from instwind",
+        "x": 400,
+        "y": 620,
+        "wires": [
+            [
+                "a101abdd8cb040ff"
+            ]
+        ]
+    },
+    {
+        "id": "a101abdd8cb040ff",
+        "type": "debug",
+        "z": "10884b5a2a828bfd",
+        "name": "INSTWIND Table",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 650,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "484f62a1d717465d",
+        "type": "sqlite",
+        "z": "10884b5a2a828bfd",
+        "mydb": "823d950ea6c21081",
+        "sqlquery": "msg.topic",
+        "sql": "create table wind (thetime Timestamp, instwind real )",
+        "name": "create ATMDATA table",
+        "x": 560,
+        "y": 440,
+        "wires": [
+            [
+                "2b9ac85acd6d9e23"
+            ]
+        ]
+    },
+    {
+        "id": "81a169b2383edd00",
+        "type": "inject",
+        "z": "10884b5a2a828bfd",
+        "name": "Crea la tabella dei dati sul vento",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "CREATE TABLE ATMDATA( TIMESTAMP INT PRIMARY KEY NOT NULL, TEMPERATURE REAL NOT NULL, HUMIDITY REAL NOT NULL, PRESSURE REAL NOT NULL, BATTERYV REAL NOT NULL, RAIN REAL NOT NULL)",
+        "payload": "",
+        "payloadType": "str",
+        "x": 190,
+        "y": 440,
+        "wires": [
+            [
+                "484f62a1d717465d"
+            ]
+        ]
+    },
+    {
+        "id": "2b9ac85acd6d9e23",
+        "type": "debug",
+        "z": "10884b5a2a828bfd",
+        "name": "ATMDATA Database",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "d19209459828cd79",
+        "type": "comment",
+        "z": "10884b5a2a828bfd",
+        "name": "Crea le 3 tabelle  INSTWIND, ATMDATA e PMSDATA",
+        "info": "",
+        "x": 230,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "ee26af35f29aadd5",
+        "type": "inject",
+        "z": "10884b5a2a828bfd",
+        "name": "select * from atmdata",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "select * from atmdata ORDER BY TIMESTAMP",
+        "payload": "",
+        "payloadType": "str",
+        "x": 160,
+        "y": 680,
+        "wires": [
+            [
+                "2f695117129eb729"
+            ]
+        ]
+    },
+    {
+        "id": "2f695117129eb729",
+        "type": "sqlite",
+        "z": "10884b5a2a828bfd",
+        "mydb": "823d950ea6c21081",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "select * from atmdata",
+        "x": 400,
+        "y": 680,
+        "wires": [
+            [
+                "65d6d40f4326e626"
+            ]
+        ]
+    },
+    {
+        "id": "65d6d40f4326e626",
+        "type": "debug",
+        "z": "10884b5a2a828bfd",
+        "name": "ATMDATA Table",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "3553aa4d1f2eddcd",
+        "type": "inject",
+        "z": "10884b5a2a828bfd",
+        "name": "Temperature",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "select timestamp,temperature from atmdata ORDER BY timestamp  LIMIT 36 OFFSET (SELECT COUNT(*) FROM ATMDATA) - 36",
+        "payload": "",
+        "payloadType": "str",
+        "x": 140,
+        "y": 880,
+        "wires": [
+            [
+                "abae02e723fe1c72"
+            ]
+        ]
+    },
+    {
+        "id": "abae02e723fe1c72",
+        "type": "sqlite",
+        "z": "10884b5a2a828bfd",
+        "mydb": "823d950ea6c21081",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "select temperature from atmdata",
+        "x": 430,
+        "y": 880,
+        "wires": [
+            [
+                "56103c97e9aef3ba"
+            ]
+        ]
+    },
+    {
+        "id": "56103c97e9aef3ba",
+        "type": "function",
+        "z": "10884b5a2a828bfd",
+        "name": "function 2",
+        "func": "//  \n// Create a data variable   \n//  \n//node.warn(msg.payload);\nvar series = [\"temp DegC\"];\nvar labels = [\"Data Values\"];\nvar data = \"[[\";\n\nfor (var i = 0; i < msg.payload.length; i++) \n{\n    data += '{ \"x\":' + msg.payload[i].TIMESTAMP * 1000 + ', \"y\":' + msg.payload[i].TEMPERATURE + '}';\n    if (i < (msg.payload.length - 1)) {\n        data += \",\"\n    } else {\n        data += \"]]\"\n    }\n}\n\nif (data[data.length - 1] == \"[\")\n    data = \"[[]]\";\n\nvar jsondata = JSON.parse(data);\nmsg.payload = [{ \"series\": series, \"data\": jsondata, \"labels\": labels }];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 880,
+        "wires": [
+            [
+                "6fd23e7bbd0d0fb7"
+            ]
+        ]
+    },
+    {
+        "id": "6fd23e7bbd0d0fb7",
+        "type": "ui_chart",
+        "z": "10884b5a2a828bfd",
+        "name": "Temperature",
+        "group": "a7711ab91e7fe7cd",
+        "order": 1,
+        "width": "7",
+        "height": "4",
+        "label": "",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f7bbd",
+            "#b0c8e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 890,
+        "y": 880,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b77f90a7e96ab3fd",
+        "type": "inject",
+        "z": "10884b5a2a828bfd",
+        "name": "BatteryV",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "select timestamp,batteryv from atmdata ORDER BY timestamp  LIMIT 36 OFFSET (SELECT COUNT(*) FROM ATMDATA) - 36",
+        "payload": "",
+        "payloadType": "str",
+        "x": 120,
+        "y": 940,
+        "wires": [
+            [
+                "7b52bda9a3bc20be"
+            ]
+        ]
+    },
+    {
+        "id": "7b52bda9a3bc20be",
+        "type": "sqlite",
+        "z": "10884b5a2a828bfd",
+        "mydb": "823d950ea6c21081",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "select batteryv from atmdata",
+        "x": 420,
+        "y": 940,
+        "wires": [
+            [
+                "15b6021ce4bf7552"
+            ]
+        ]
+    },
+    {
+        "id": "15b6021ce4bf7552",
+        "type": "function",
+        "z": "10884b5a2a828bfd",
+        "name": "function 3",
+        "func": "//  \n// Create a data variable   \n//  \nvar series = [\"Battery Volts\"];\nvar labels = [\"Data Values\"];\nvar data = \"[[\";\nvar tmp = 0;\n\nfor (var i = 0; i < msg.payload.length; i++) \n{\n    tmp = msg.payload[i].BATTERYV;\n    if (tmp <= 1.0)\n        tmp = 0;\n    data += '{ \"x\":' + msg.payload[i].TIMESTAMP * 1000 + ', \"y\":' + tmp + '}';\n    if (i < (msg.payload.length - 1)) {\n        data += \",\"\n    } else {\n        data += \"]]\"\n    }\n}\n\nif (data[data.length - 1] == \"[\")\n    data = \"[[]]\";\n\nvar jsondata = JSON.parse(data);\nmsg.payload = [{ \"series\": series, \"data\": jsondata, \"labels\": labels }];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 940,
+        "wires": [
+            [
+                "a73009bb51912fbc"
+            ]
+        ]
+    },
+    {
+        "id": "a73009bb51912fbc",
+        "type": "ui_chart",
+        "z": "10884b5a2a828bfd",
+        "name": "BatteryV",
+        "group": "7d44ac03c41cdd25",
+        "order": 1,
+        "width": "7",
+        "height": "4",
+        "label": "",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 880,
+        "y": 940,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5afe8b29d713d0c3",
+        "type": "inject",
+        "z": "10884b5a2a828bfd",
+        "name": "Humidity",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "select timestamp,humidity from atmdata LIMIT 36 OFFSET (SELECT COUNT(*) FROM ATMDATA) - 36",
+        "payload": "",
+        "payloadType": "str",
+        "x": 120,
+        "y": 1060,
+        "wires": [
+            [
+                "2f7dcfe22febf4d8"
+            ]
+        ]
+    },
+    {
+        "id": "2f7dcfe22febf4d8",
+        "type": "sqlite",
+        "z": "10884b5a2a828bfd",
+        "mydb": "823d950ea6c21081",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "select humidity from atmdata",
+        "x": 420,
+        "y": 1060,
+        "wires": [
+            [
+                "972590d85c2d916e"
+            ]
+        ]
+    },
+    {
+        "id": "972590d85c2d916e",
+        "type": "function",
+        "z": "10884b5a2a828bfd",
+        "name": "function 4",
+        "func": "//  \n// Create a data variable   \n//  \nvar series = [\"Humidity %\"];\nvar labels = [\"Data Values\"];\nvar data = \"[[\";\n\nfor (var i = 0; i < msg.payload.length; i++) \n{\n    data += '{ \"x\":' + msg.payload[i].TIMESTAMP * 1000 + ', \"y\":' + msg.payload[i].HUMIDITY + '}';\n    if (i < (msg.payload.length - 1)) {\n        data += \",\"\n    } else {\n        data += \"]]\"\n    }\n}\n\nif (data[data.length - 1] == \"[\")\n    data = \"[[]]\";\n\nvar jsondata = JSON.parse(data);\nmsg.payload = [{ \"series\": series, \"data\": jsondata, \"labels\": labels }];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 1060,
+        "wires": [
+            [
+                "00a8e04380decd6c"
+            ]
+        ]
+    },
+    {
+        "id": "00a8e04380decd6c",
+        "type": "ui_chart",
+        "z": "10884b5a2a828bfd",
+        "name": "Humidity",
+        "group": "dee8f062da9a58c1",
+        "order": 1,
+        "width": "7",
+        "height": "4",
+        "label": "",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 880,
+        "y": 1060,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "74a4bb44d6a389ca",
+        "type": "comment",
+        "z": "10884b5a2a828bfd",
+        "name": "Aggiornamento GRAFICI",
+        "info": "",
+        "x": 150,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "c5960b634772b8b8",
+        "type": "inject",
+        "z": "10884b5a2a828bfd",
+        "name": "DELETE FROM INSTWIND",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "DELETE FROM INSTWIND",
+        "payload": "",
+        "payloadType": "str",
+        "x": 180,
+        "y": 100,
+        "wires": [
+            [
+                "b2f9b71d3738729e"
+            ]
+        ]
+    },
+    {
+        "id": "b2f9b71d3738729e",
+        "type": "sqlite",
+        "z": "10884b5a2a828bfd",
+        "mydb": "823d950ea6c21081",
+        "sqlquery": "msg.topic",
+        "sql": "SELECT * FROM instwind where datetime(timestamp, \"unixepoch\") >= datetime('now', '-1 Hour')\n",
+        "name": "DELETE ALL INSTWIND",
+        "x": 450,
+        "y": 100,
+        "wires": [
+            [
+                "261f79bb3e10f098"
+            ]
+        ]
+    },
+    {
+        "id": "261f79bb3e10f098",
+        "type": "debug",
+        "z": "10884b5a2a828bfd",
+        "name": "INSTWIND Table",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "c9502d146544987e",
+        "type": "comment",
+        "z": "10884b5a2a828bfd",
+        "name": "DELETE * FROM TABLES",
+        "info": "",
+        "x": 150,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "363293c49de8136b",
+        "type": "inject",
+        "z": "10884b5a2a828bfd",
+        "name": "Pressure",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "select timestamp,pressure from atmdata LIMIT 36 OFFSET (SELECT COUNT(*) FROM ATMDATA) - 36",
+        "payload": "",
+        "payloadType": "str",
+        "x": 130,
+        "y": 1000,
+        "wires": [
+            [
+                "a9b92610732bb099"
+            ]
+        ]
+    },
+    {
+        "id": "a9b92610732bb099",
+        "type": "sqlite",
+        "z": "10884b5a2a828bfd",
+        "mydb": "823d950ea6c21081",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "select pressure from atmdata",
+        "x": 420,
+        "y": 1000,
+        "wires": [
+            [
+                "b8810fb62d9a7342"
+            ]
+        ]
+    },
+    {
+        "id": "b8810fb62d9a7342",
+        "type": "function",
+        "z": "10884b5a2a828bfd",
+        "name": "function 8",
+        "func": "//  \n// Create a data variable   \n//  \nvar series = [\"Pressure mBar\"];\nvar labels = [\"Data Values\"];\nvar data = \"[[\";\n\nfor (var i = 0; i < msg.payload.length; i++) \n{\n    data += '{ \"x\":' + msg.payload[i].TIMESTAMP * 1000 + ', \"y\":' + msg.payload[i].PRESSURE + '}';\n    if (i < (msg.payload.length - 1)) {\n        data += \",\"\n    } else {\n        data += \"]]\"\n    }\n}\n\nif (data[data.length - 1] == \"[\")\n    data = \"[[]]\";\n\nvar jsondata = JSON.parse(data);\nmsg.payload = [{ \"series\": series, \"data\": jsondata, \"labels\": labels }];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 1000,
+        "wires": [
+            [
+                "a20cf1dfac625cac"
+            ]
+        ]
+    },
+    {
+        "id": "a20cf1dfac625cac",
+        "type": "ui_chart",
+        "z": "10884b5a2a828bfd",
+        "name": "Presure",
+        "group": "3d4c5586342aff10",
+        "order": 1,
+        "width": "7",
+        "height": "4",
+        "label": "",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 880,
+        "y": 1000,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b60cebdde9d5bb4d",
+        "type": "inject",
+        "z": "10884b5a2a828bfd",
+        "name": "Rain",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "select timestamp,rain from atmdata LIMIT 36 OFFSET (SELECT COUNT(*) FROM ATMDATA) - 36",
+        "payload": "",
+        "payloadType": "str",
+        "x": 110,
+        "y": 1120,
+        "wires": [
+            [
+                "95cf4f3222eefeaf"
+            ]
+        ]
+    },
+    {
+        "id": "95cf4f3222eefeaf",
+        "type": "sqlite",
+        "z": "10884b5a2a828bfd",
+        "mydb": "823d950ea6c21081",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "select rain from atmdata",
+        "x": 410,
+        "y": 1120,
+        "wires": [
+            [
+                "c08a87fc48f76768"
+            ]
+        ]
+    },
+    {
+        "id": "c08a87fc48f76768",
+        "type": "function",
+        "z": "10884b5a2a828bfd",
+        "name": "function 9",
+        "func": "//  \n// Create a data variable   \n//  \nvar series = [\"Rain mm/10min\"];\nvar labels = [\"Data Values\"];\nvar data = \"[[\";\n\nfor (var i = 0; i < msg.payload.length; i++) \n{\n    data += '{ \"x\":' + msg.payload[i].TIMESTAMP * 1000 + ', \"y\":' + msg.payload[i].RAIN + '}';\n    if (i < (msg.payload.length - 1)) {\n        data += \",\"\n    } else {\n        data += \"]]\"\n    }\n}\n\nif (data[data.length - 1] == \"[\")\n    data = \"[[]]\";\n\nvar jsondata = JSON.parse(data);\nmsg.payload = [{ \"series\": series, \"data\": jsondata, \"labels\": labels }];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 1120,
+        "wires": [
+            [
+                "aac1074d23141319"
+            ]
+        ]
+    },
+    {
+        "id": "aac1074d23141319",
+        "type": "ui_chart",
+        "z": "10884b5a2a828bfd",
+        "name": "Rain",
+        "group": "fe0d96bcbe52337e",
+        "order": 1,
+        "width": "7",
+        "height": "4",
+        "label": "",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 870,
+        "y": 1120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "63e76047f807b0e4",
+        "type": "inject",
+        "z": "10884b5a2a828bfd",
+        "name": "Wind",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "select timestamp,wind from instwind LIMIT 2400 OFFSET (SELECT COUNT(*) FROM INSTWIND) - 2400",
+        "payload": "",
+        "payloadType": "str",
+        "x": 110,
+        "y": 1220,
+        "wires": [
+            [
+                "2b6b2d1e85b7589f"
+            ]
+        ]
+    },
+    {
+        "id": "2b6b2d1e85b7589f",
+        "type": "sqlite",
+        "z": "10884b5a2a828bfd",
+        "mydb": "823d950ea6c21081",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "Wind from instwind",
+        "x": 390,
+        "y": 1220,
+        "wires": [
+            [
+                "949e436ba067cebc"
+            ]
+        ]
+    },
+    {
+        "id": "949e436ba067cebc",
+        "type": "function",
+        "z": "10884b5a2a828bfd",
+        "name": "function 10",
+        "func": "//  \n// Create a data variable   \n//  \nvar series = [\"Wind m/s\"];\nvar labels = [\"Data Values\"];\nvar data = \"[[\";\n\nvar tmp = 0;\nfor (var i = 0; i < msg.payload.length; i++) \n{\n    tmp += msg.payload[i].WIND;\n    if (((i % 200) == 0) && (i > 0))\n    {\n        data += '{ \"x\":' + msg.payload[i].TIMESTAMP * 1000 + ', \"y\":' + tmp * 0.6667 / 600.0 + '},';\n        tmp = 0;\n    }\n    \n}\n\nif (data[data.length-1] == \",\")\n{\n    data = data.substring(0, data.length-1);\n    data += \"]]\";\n}\n\nif (data[data.length - 1] == \"[\")\n    data = \"[[]]\";\n\nvar jsondata = JSON.parse(data);\nmsg.payload = [{ \"series\": series, \"data\": jsondata, \"labels\": labels }];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 710,
+        "y": 1220,
+        "wires": [
+            [
+                "bf6ba3d367dd80f4"
+            ]
+        ]
+    },
+    {
+        "id": "bf6ba3d367dd80f4",
+        "type": "ui_chart",
+        "z": "10884b5a2a828bfd",
+        "name": "Wind 10min",
+        "group": "e62f7fd8f83fa3b8",
+        "order": 1,
+        "width": "7",
+        "height": "4",
+        "label": "Media 10 minuti m/sec",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 900,
+        "y": 1220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b02b4940a1765676",
+        "type": "inject",
+        "z": "10884b5a2a828bfd",
+        "name": "WindDir",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "select timestamp,winddir from instwind LIMIT 12 OFFSET (SELECT COUNT(*) FROM INSTWIND) - 12",
+        "payload": "",
+        "payloadType": "str",
+        "x": 120,
+        "y": 1340,
+        "wires": [
+            [
+                "302e0a4acd3f3790"
+            ]
+        ]
+    },
+    {
+        "id": "302e0a4acd3f3790",
+        "type": "sqlite",
+        "z": "10884b5a2a828bfd",
+        "mydb": "823d950ea6c21081",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "Winddir from instwind",
+        "x": 400,
+        "y": 1340,
+        "wires": [
+            [
+                "3edfc94aecc986b5"
+            ]
+        ]
+    },
+    {
+        "id": "3edfc94aecc986b5",
+        "type": "function",
+        "z": "10884b5a2a828bfd",
+        "name": "function 12",
+        "func": "//  \n// Create a data variable   \n//  \nvar series = [\"WindDir\"];\nvar labels = [\"Data Values\"];\nvar data = \"[[\";\n\nfor (var i = 0; i < msg.payload.length; i++) \n{\n    data += '{ \"x\":' + msg.payload[i].TIMESTAMP * 1000 + ', \"y\":' + msg.payload[i].WINDDIR + '}';\n    if (i < (msg.payload.length - 1)) {\n        data += \",\"\n    } else {\n        data += \"]]\"\n    }\n}\n\nif (data[data.length - 1] == \"[\")\n    data = \"[[]]\";\n\n//node.warn(data);\n\nvar jsondata = JSON.parse(data);\nmsg.payload = [{ \"series\": series, \"data\": jsondata, \"labels\": labels }];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 710,
+        "y": 1340,
+        "wires": [
+            [
+                "476e3680184b6a23"
+            ]
+        ]
+    },
+    {
+        "id": "476e3680184b6a23",
+        "type": "ui_chart",
+        "z": "10884b5a2a828bfd",
+        "name": "Wind Direction",
+        "group": "fd713c135a140351",
+        "order": 1,
+        "width": "7",
+        "height": "4",
+        "label": "",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 910,
+        "y": 1340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9d6e2156edb59355",
+        "type": "inject",
+        "z": "10884b5a2a828bfd",
+        "name": "DELETE FROM ATMDATA",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "DELETE FROM ATMDATA",
+        "payload": "",
+        "payloadType": "str",
+        "x": 170,
+        "y": 160,
+        "wires": [
+            [
+                "1959246fe0a69c12"
+            ]
+        ]
+    },
+    {
+        "id": "1959246fe0a69c12",
+        "type": "sqlite",
+        "z": "10884b5a2a828bfd",
+        "mydb": "823d950ea6c21081",
+        "sqlquery": "msg.topic",
+        "sql": "SELECT * FROM instwind where datetime(timestamp, \"unixepoch\") >= datetime('now', '-1 Hour')\n",
+        "name": "DELETE ALL ATMDATA",
+        "x": 450,
+        "y": 160,
+        "wires": [
+            [
+                "2b94477ff7efba54"
+            ]
+        ]
+    },
+    {
+        "id": "2b94477ff7efba54",
+        "type": "debug",
+        "z": "10884b5a2a828bfd",
+        "name": "ATMDATA Table",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "c72b5c74db4ab817",
+        "type": "inject",
+        "z": "10884b5a2a828bfd",
+        "name": "Inst Wind",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "select timestamp,wind from instwind LIMIT 2400 OFFSET (SELECT COUNT(*) FROM INSTWIND) - 2400",
+        "payload": "",
+        "payloadType": "str",
+        "x": 130,
+        "y": 1280,
+        "wires": [
+            [
+                "0433bc4314eadbcb"
+            ]
+        ]
+    },
+    {
+        "id": "0433bc4314eadbcb",
+        "type": "sqlite",
+        "z": "10884b5a2a828bfd",
+        "mydb": "823d950ea6c21081",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "Wind from instwind",
+        "x": 390,
+        "y": 1280,
+        "wires": [
+            [
+                "44e8f74c0b9251c7"
+            ]
+        ]
+    },
+    {
+        "id": "44e8f74c0b9251c7",
+        "type": "function",
+        "z": "10884b5a2a828bfd",
+        "name": "function 13",
+        "func": "//  \n// Create a data variable   \n//  \nvar series = [\"Inst. Wind m/s\"];\nvar labels = [\"Data Values\"];\nvar data = \"[[\";\n\n//var tmp = 0;\nfor (var i = 0; i < msg.payload.length; i++) \n{\n    //node.warn(msg.payload[i].WIND);\n    //tmp += msg.payload[i].WIND * 0.6667 / 3.0;\n    // if (((i % 20) == 0) && (i > 0))\n    // {\n    data += '{ \"x\":' + msg.payload[i].TIMESTAMP * 1000 + ', \"y\":' + msg.payload[i].WIND * 0.6667 / 3.0 + '},';\n    //tmp = 0;\n    // }\n    \n}\n\nif (data[data.length-1] == \",\")\n{\n    data = data.substring(0, data.length-1);\n    data += \"]]\";\n}\n\nif (data[data.length - 1] == \"[\")\n    data = \"[[]]\";\n\nvar jsondata = JSON.parse(data);\nmsg.payload = [{ \"series\": series, \"data\": jsondata, \"labels\": labels }];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 710,
+        "y": 1280,
+        "wires": [
+            [
+                "1ddaad8881df2e4b"
+            ]
+        ]
+    },
+    {
+        "id": "1ddaad8881df2e4b",
+        "type": "ui_chart",
+        "z": "10884b5a2a828bfd",
+        "name": "Wind 1 min",
+        "group": "e62f7fd8f83fa3b8",
+        "order": 1,
+        "width": "7",
+        "height": "5",
+        "label": "Media 1 minuto m/sec",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 900,
+        "y": 1280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0636906a77082095",
+        "type": "file in",
+        "z": "10884b5a2a828bfd",
+        "name": "",
+        "filename": "/home/pi/srv/ftp/files/ATMData.json",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 720,
+        "y": 1820,
+        "wires": [
+            [
+                "1767972c0c08b5f0"
+            ]
+        ]
+    },
+    {
+        "id": "98aa5b6eba098de0",
+        "type": "file in",
+        "z": "10884b5a2a828bfd",
+        "name": "",
+        "filename": "/home/pi/srv/ftp/files/Data_Rdy.txt",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 220,
+        "y": 1840,
+        "wires": [
+            [
+                "0636906a77082095",
+                "cc6f9fb88839ecb4",
+                "cb7aad6e6ba5848b"
+            ]
+        ]
+    },
+    {
+        "id": "1a55ab9548a03644",
+        "type": "inject",
+        "z": "10884b5a2a828bfd",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "120",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 1760,
+        "wires": [
+            [
+                "98aa5b6eba098de0"
+            ]
+        ]
+    },
+    {
+        "id": "9ce614dab8198426",
+        "type": "catch",
+        "z": "10884b5a2a828bfd",
+        "name": "",
+        "scope": [
+            "98aa5b6eba098de0"
+        ],
+        "uncaught": false,
+        "x": 90,
+        "y": 2160,
+        "wires": [
+            [
+                "b85f3a582b02130a"
+            ]
+        ]
+    },
+    {
+        "id": "24df100a782d89f6",
+        "type": "debug",
+        "z": "10884b5a2a828bfd",
+        "name": "ATMDATA",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1230,
+        "y": 1880,
+        "wires": []
+    },
+    {
+        "id": "1767972c0c08b5f0",
+        "type": "json",
+        "z": "10884b5a2a828bfd",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 970,
+        "y": 1820,
+        "wires": [
+            [
+                "26bc184e48f9ef95",
+                "68415f636791fd71",
+                "daa20160258591d3",
+                "24df100a782d89f6"
+            ]
+        ]
+    },
+    {
+        "id": "26bc184e48f9ef95",
+        "type": "split",
+        "z": "10884b5a2a828bfd",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 1210,
+        "y": 1800,
+        "wires": [
+            [
+                "9ad056905dbf3d56"
+            ]
+        ]
+    },
+    {
+        "id": "9ad056905dbf3d56",
+        "type": "function",
+        "z": "10884b5a2a828bfd",
+        "name": "data for data",
+        "func": "msg.topic = \"INSERT INTO ATMDATA (timestamp,  temperature, humidity, pressure, batteryv, rain) \" + \n    \"VALUES (\" +\n    msg.payload.epoch +\n    \", \" +\n    msg.payload.temperature / 100.0 +\n    \", \" +\n    msg.payload.humidity / 100.0 +\n    \", \" +\n    msg.payload.pressure / 100.0 +\n    \", \" +\n    msg.payload.batteryV / 100.0 +\n    \", \" +\n    msg.payload.rain * 0.2794 +\n    \")\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1370,
+        "y": 1800,
+        "wires": [
+            [
+                "7a79139ee749490c"
+            ]
+        ]
+    },
+    {
+        "id": "7a79139ee749490c",
+        "type": "sqlite",
+        "z": "10884b5a2a828bfd",
+        "mydb": "823d950ea6c21081",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "ATMData to SQLite",
+        "x": 1610,
+        "y": 1800,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b85f3a582b02130a",
+        "type": "debug",
+        "z": "10884b5a2a828bfd",
+        "name": "ERRORE",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 220,
+        "y": 2160,
+        "wires": []
+    },
+    {
+        "id": "68415f636791fd71",
+        "type": "file",
+        "z": "10884b5a2a828bfd",
+        "name": "delete Rdy file",
+        "filename": "/home/pi/srv/ftp/files/Data_Rdy.txt",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "delete",
+        "encoding": "none",
+        "x": 1240,
+        "y": 1760,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cc6f9fb88839ecb4",
+        "type": "file in",
+        "z": "10884b5a2a828bfd",
+        "name": "",
+        "filename": "/home/pi/srv/ftp/files/WINDData.json",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 710,
+        "y": 2000,
+        "wires": [
+            [
+                "6eafc66fced0cc67"
+            ]
+        ]
+    },
+    {
+        "id": "f72ef3a9e7b8888a",
+        "type": "debug",
+        "z": "10884b5a2a828bfd",
+        "name": "WINDDATA",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1230,
+        "y": 2040,
+        "wires": []
+    },
+    {
+        "id": "6eafc66fced0cc67",
+        "type": "json",
+        "z": "10884b5a2a828bfd",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 970,
+        "y": 2000,
+        "wires": [
+            [
+                "fc466dbf38fa3431",
+                "f72ef3a9e7b8888a",
+                "e720e0226c3d6884"
+            ]
+        ]
+    },
+    {
+        "id": "fc466dbf38fa3431",
+        "type": "split",
+        "z": "10884b5a2a828bfd",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 1210,
+        "y": 2000,
+        "wires": [
+            [
+                "375d0c3a7206b853"
+            ]
+        ]
+    },
+    {
+        "id": "375d0c3a7206b853",
+        "type": "function",
+        "z": "10884b5a2a828bfd",
+        "name": "data for wind",
+        "func": "msg.topic = \"INSERT INTO INSTWIND (timestamp, wind, winddir) VALUES (\" + \n            msg.payload.epoch +\n            \", \" + \n            msg.payload.wind  +\n            \", \" +\n            msg.payload.winddir / 10.0 +\n            \")\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1370,
+        "y": 2000,
+        "wires": [
+            [
+                "794f21237065a3d5"
+            ]
+        ]
+    },
+    {
+        "id": "794f21237065a3d5",
+        "type": "sqlite",
+        "z": "10884b5a2a828bfd",
+        "mydb": "823d950ea6c21081",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "WINDData to SQLite",
+        "x": 1620,
+        "y": 2000,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "daa20160258591d3",
+        "type": "file",
+        "z": "10884b5a2a828bfd",
+        "name": "delete ATMData.json file",
+        "filename": "/home/pi/srv/ftp/files/ATMData.json",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "delete",
+        "encoding": "none",
+        "x": 1270,
+        "y": 1840,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e720e0226c3d6884",
+        "type": "file",
+        "z": "10884b5a2a828bfd",
+        "name": "delete WINDData.json file",
+        "filename": "/home/pi/srv/ftp/files/WINDData.json",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "delete",
+        "encoding": "none",
+        "x": 1270,
+        "y": 1960,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d00448850706450f",
+        "type": "comment",
+        "z": "10884b5a2a828bfd",
+        "name": "Legge dai files (WINDData.json, ATMData.json e PMSData.json) del server ftp i dati atmosferici e li mette in SQLite",
+        "info": "",
+        "x": 430,
+        "y": 1700,
+        "wires": []
+    },
+    {
+        "id": "f79a190bacd36ea4",
+        "type": "sqlite",
+        "z": "10884b5a2a828bfd",
+        "mydb": "823d950ea6c21081",
+        "sqlquery": "msg.topic",
+        "sql": "create table wind (thetime Timestamp, instwind real )",
+        "name": "create PMSDATA table",
+        "x": 560,
+        "y": 500,
+        "wires": [
+            [
+                "77279103031b49b9"
+            ]
+        ]
+    },
+    {
+        "id": "bef909036d35181f",
+        "type": "inject",
+        "z": "10884b5a2a828bfd",
+        "name": "Crea la tabella dei dati su PM1.0 PM2.5 e PM10",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "CREATE TABLE PMSDATA( TIMESTAMP INT PRIMARY KEY NOT NULL, PM1 INT NOT NULL, PM2_5 INT NOT NULL, PM10 INT NOT NULL)",
+        "payload": "",
+        "payloadType": "str",
+        "x": 240,
+        "y": 500,
+        "wires": [
+            [
+                "f79a190bacd36ea4"
+            ]
+        ]
+    },
+    {
+        "id": "77279103031b49b9",
+        "type": "debug",
+        "z": "10884b5a2a828bfd",
+        "name": "PMSDATA Database",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "4f810a9edcc5f4b2",
+        "type": "inject",
+        "z": "10884b5a2a828bfd",
+        "name": "select * from pmsdata",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "select * from pmsdata ORDER BY TIMESTAMP",
+        "payload": "",
+        "payloadType": "str",
+        "x": 160,
+        "y": 740,
+        "wires": [
+            [
+                "f282099a5c7d26e1"
+            ]
+        ]
+    },
+    {
+        "id": "f282099a5c7d26e1",
+        "type": "sqlite",
+        "z": "10884b5a2a828bfd",
+        "mydb": "823d950ea6c21081",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "select * from pmsdata",
+        "x": 400,
+        "y": 740,
+        "wires": [
+            [
+                "65b395ac65ffc7de"
+            ]
+        ]
+    },
+    {
+        "id": "65b395ac65ffc7de",
+        "type": "debug",
+        "z": "10884b5a2a828bfd",
+        "name": "PMSDATA Table",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "fe4c5fcc23a158e1",
+        "type": "debug",
+        "z": "10884b5a2a828bfd",
+        "name": "PMSDATA",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1230,
+        "y": 2200,
+        "wires": []
+    },
+    {
+        "id": "bf322fc97c1558c4",
+        "type": "json",
+        "z": "10884b5a2a828bfd",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 970,
+        "y": 2160,
+        "wires": [
+            [
+                "4af46dde84fcf355",
+                "fe4c5fcc23a158e1",
+                "632e9e39a8e03d0d"
+            ]
+        ]
+    },
+    {
+        "id": "4af46dde84fcf355",
+        "type": "split",
+        "z": "10884b5a2a828bfd",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 1210,
+        "y": 2160,
+        "wires": [
+            [
+                "d06116ac3c8b00cf"
+            ]
+        ]
+    },
+    {
+        "id": "d06116ac3c8b00cf",
+        "type": "function",
+        "z": "10884b5a2a828bfd",
+        "name": "data for pmsdata",
+        "func": "msg.topic = \"INSERT INTO PMSDATA (timestamp, pm1, pm2_5, pm10) VALUES (\" + \n            msg.payload.epoch +\n            \", \" + \n            msg.payload.PM1  +\n            \", \" +\n            msg.payload.PM2_5 +\n            \", \" +\n            msg.payload.PM10 +\n            \")\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1390,
+        "y": 2160,
+        "wires": [
+            [
+                "cfcaf243a61eed0b"
+            ]
+        ]
+    },
+    {
+        "id": "cfcaf243a61eed0b",
+        "type": "sqlite",
+        "z": "10884b5a2a828bfd",
+        "mydb": "823d950ea6c21081",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "PMSData to SQLite",
+        "x": 1610,
+        "y": 2160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "632e9e39a8e03d0d",
+        "type": "file",
+        "z": "10884b5a2a828bfd",
+        "name": "delete PMSData.json file",
+        "filename": "/home/pi/srv/ftp/files/PMSData.json",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "delete",
+        "encoding": "none",
+        "x": 1270,
+        "y": 2120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cb7aad6e6ba5848b",
+        "type": "file in",
+        "z": "10884b5a2a828bfd",
+        "name": "",
+        "filename": "/home/pi/srv/ftp/files/PMSData.json",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 720,
+        "y": 2160,
+        "wires": [
+            [
+                "bf322fc97c1558c4"
+            ]
+        ]
+    },
+    {
+        "id": "434843b168989408",
+        "type": "inject",
+        "z": "10884b5a2a828bfd",
+        "name": "PM1.0",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "select timestamp,pm1 from pmsdata ORDER BY timestamp  LIMIT 72 OFFSET (SELECT COUNT(*) FROM PMSDATA) - 72",
+        "payload": "",
+        "payloadType": "str",
+        "x": 120,
+        "y": 1440,
+        "wires": [
+            [
+                "5390950549f95a9c"
+            ]
+        ]
+    },
+    {
+        "id": "5390950549f95a9c",
+        "type": "sqlite",
+        "z": "10884b5a2a828bfd",
+        "mydb": "823d950ea6c21081",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "select pm1 from pmsdata",
+        "x": 410,
+        "y": 1440,
+        "wires": [
+            [
+                "5221051405516195"
+            ]
+        ]
+    },
+    {
+        "id": "5221051405516195",
+        "type": "function",
+        "z": "10884b5a2a828bfd",
+        "name": "function 14",
+        "func": "//  \n// Create a data variable   \n//  \n//node.warn(msg.payload);\nvar series = [\"PM1 ug/m3\"];\nvar labels = [\"Data Values\"];\nvar data = \"[[\";\n\nfor (var i = 0; i < msg.payload.length; i++) \n{\n    data += '{ \"x\":' + msg.payload[i].TIMESTAMP * 1000 + ', \"y\":' + msg.payload[i].PM1 + '}';\n    if (i < (msg.payload.length - 1)) {\n        data += \",\"\n    } else {\n        data += \"]]\"\n    }\n}\n\nif (data[data.length - 1] == \"[\")\n    data = \"[[]]\";\n\nvar jsondata = JSON.parse(data);\nmsg.payload = [{ \"series\": series, \"data\": jsondata, \"labels\": labels }];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 1440,
+        "wires": [
+            [
+                "6407d29d92c26be5"
+            ]
+        ]
+    },
+    {
+        "id": "6407d29d92c26be5",
+        "type": "ui_chart",
+        "z": "10884b5a2a828bfd",
+        "name": "PM1.0",
+        "group": "1fb509d60457c839",
+        "order": 1,
+        "width": "7",
+        "height": "4",
+        "label": "",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f7bbd",
+            "#b0c8e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 930,
+        "y": 1440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "db36935651ab689f",
+        "type": "comment",
+        "z": "10884b5a2a828bfd",
+        "name": "QUERY per tabelle",
+        "info": "",
+        "x": 130,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "0e40bf7297a1e88a",
+        "type": "inject",
+        "z": "10884b5a2a828bfd",
+        "name": "DELETE FROM ATMDATA",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "DELETE FROM PMSDATA",
+        "payload": "",
+        "payloadType": "str",
+        "x": 170,
+        "y": 220,
+        "wires": [
+            [
+                "88020378325e23e7"
+            ]
+        ]
+    },
+    {
+        "id": "88020378325e23e7",
+        "type": "sqlite",
+        "z": "10884b5a2a828bfd",
+        "mydb": "823d950ea6c21081",
+        "sqlquery": "msg.topic",
+        "sql": "SELECT * FROM instwind where datetime(timestamp, \"unixepoch\") >= datetime('now', '-1 Hour')\n",
+        "name": "DELETE ALL PMSDATA",
+        "x": 450,
+        "y": 220,
+        "wires": [
+            [
+                "298183f63d013e73"
+            ]
+        ]
+    },
+    {
+        "id": "298183f63d013e73",
+        "type": "debug",
+        "z": "10884b5a2a828bfd",
+        "name": "PMSDATA Table",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "a88ba5afa325f901",
+        "type": "inject",
+        "z": "10884b5a2a828bfd",
+        "name": "PM2.5",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "select timestamp,pm2_5 from pmsdata ORDER BY timestamp  LIMIT 72 OFFSET (SELECT COUNT(*) FROM PMSDATA) - 72",
+        "payload": "",
+        "payloadType": "str",
+        "x": 120,
+        "y": 1500,
+        "wires": [
+            [
+                "566041dc93b91ad6"
+            ]
+        ]
+    },
+    {
+        "id": "566041dc93b91ad6",
+        "type": "sqlite",
+        "z": "10884b5a2a828bfd",
+        "mydb": "823d950ea6c21081",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "select pm2.5 from pmsdata",
+        "x": 420,
+        "y": 1500,
+        "wires": [
+            [
+                "b84607a2f71636b4"
+            ]
+        ]
+    },
+    {
+        "id": "b84607a2f71636b4",
+        "type": "function",
+        "z": "10884b5a2a828bfd",
+        "name": "function 15",
+        "func": "//  \n// Create a data variable   \n//  \n//node.warn(msg.payload);\nvar series = [\"PM2.5 ug/m3\"];\nvar labels = [\"Data Values\"];\nvar data = \"[[\";\n\nfor (var i = 0; i < msg.payload.length; i++) \n{\n    data += '{ \"x\":' + msg.payload[i].TIMESTAMP * 1000 + ', \"y\":' + msg.payload[i].PM2_5 + '}';\n    if (i < (msg.payload.length - 1)) {\n        data += \",\"\n    } else {\n        data += \"]]\"\n    }\n}\n\nif (data[data.length - 1] == \"[\")\n    data = \"[[]]\";\n\nvar jsondata = JSON.parse(data);\nmsg.payload = [{ \"series\": series, \"data\": jsondata, \"labels\": labels }];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 1500,
+        "wires": [
+            [
+                "1037517578bf2acc"
+            ]
+        ]
+    },
+    {
+        "id": "1037517578bf2acc",
+        "type": "ui_chart",
+        "z": "10884b5a2a828bfd",
+        "name": "PM2.5",
+        "group": "e5b6a5c9eace5bbb",
+        "order": 1,
+        "width": "7",
+        "height": "4",
+        "label": "",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f7bbd",
+            "#b0c8e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 930,
+        "y": 1500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "76c69145f95b91f6",
+        "type": "inject",
+        "z": "10884b5a2a828bfd",
+        "name": "PM10",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "select timestamp,pm10 from pmsdata ORDER BY timestamp  LIMIT 72 OFFSET (SELECT COUNT(*) FROM PMSDATA) - 72",
+        "payload": "",
+        "payloadType": "str",
+        "x": 120,
+        "y": 1560,
+        "wires": [
+            [
+                "51d56ecd3a3ff357"
+            ]
+        ]
+    },
+    {
+        "id": "51d56ecd3a3ff357",
+        "type": "sqlite",
+        "z": "10884b5a2a828bfd",
+        "mydb": "823d950ea6c21081",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "select pm10 from pmsdata",
+        "x": 420,
+        "y": 1560,
+        "wires": [
+            [
+                "5d30798214f88423"
+            ]
+        ]
+    },
+    {
+        "id": "5d30798214f88423",
+        "type": "function",
+        "z": "10884b5a2a828bfd",
+        "name": "function 16",
+        "func": "//  \n// Create a data variable   \n//  \n//node.warn(msg.payload);\nvar series = [\"PM10 ug/m3\"];\nvar labels = [\"Data Values\"];\nvar data = \"[[\";\n\nfor (var i = 0; i < msg.payload.length; i++) \n{\n    data += '{ \"x\":' + msg.payload[i].TIMESTAMP * 1000 + ', \"y\":' + msg.payload[i].PM10 + '}';\n    if (i < (msg.payload.length - 1)) {\n        data += \",\"\n    } else {\n        data += \"]]\"\n    }\n}\n\nif (data[data.length - 1] == \"[\")\n    data = \"[[]]\";\n\nvar jsondata = JSON.parse(data);\nmsg.payload = [{ \"series\": series, \"data\": jsondata, \"labels\": labels }];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 1560,
+        "wires": [
+            [
+                "2262b44249b87684"
+            ]
+        ]
+    },
+    {
+        "id": "2262b44249b87684",
+        "type": "ui_chart",
+        "z": "10884b5a2a828bfd",
+        "name": "PM10",
+        "group": "06228b6c43c64f66",
+        "order": 1,
+        "width": "7",
+        "height": "4",
+        "label": "",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f7bbd",
+            "#b0c8e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 930,
+        "y": 1560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "823d950ea6c21081",
+        "type": "sqlitedb",
+        "db": "/home/pi/sql/wind0.db",
+        "mode": "RWC"
+    },
+    {
+        "id": "a7711ab91e7fe7cd",
+        "type": "ui_group",
+        "name": "Temperature",
+        "tab": "9dbe319eba79c915",
+        "order": 3,
+        "disp": true,
+        "width": "7",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "7d44ac03c41cdd25",
+        "type": "ui_group",
+        "name": "BatteryV",
+        "tab": "9dbe319eba79c915",
+        "order": 1,
+        "disp": true,
+        "width": "7",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "dee8f062da9a58c1",
+        "type": "ui_group",
+        "name": "Humidity",
+        "tab": "9dbe319eba79c915",
+        "order": 4,
+        "disp": true,
+        "width": "7",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "3d4c5586342aff10",
+        "type": "ui_group",
+        "name": "Pressure",
+        "tab": "9dbe319eba79c915",
+        "order": 5,
+        "disp": true,
+        "width": "7",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "fe0d96bcbe52337e",
+        "type": "ui_group",
+        "name": "Rain",
+        "tab": "9dbe319eba79c915",
+        "order": 6,
+        "disp": true,
+        "width": "7",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "e62f7fd8f83fa3b8",
+        "type": "ui_group",
+        "name": "Wind",
+        "tab": "9dbe319eba79c915",
+        "order": 2,
+        "disp": true,
+        "width": "7",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "fd713c135a140351",
+        "type": "ui_group",
+        "name": "Wind Direction",
+        "tab": "9dbe319eba79c915",
+        "order": 7,
+        "disp": true,
+        "width": "7",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "1fb509d60457c839",
+        "type": "ui_group",
+        "name": "PM1.0",
+        "tab": "9dbe319eba79c915",
+        "order": 9,
+        "disp": true,
+        "width": "7",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "e5b6a5c9eace5bbb",
+        "type": "ui_group",
+        "name": "PM2.5",
+        "tab": "9dbe319eba79c915",
+        "order": 10,
+        "disp": true,
+        "width": "7",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "06228b6c43c64f66",
+        "type": "ui_group",
+        "name": "PM10",
+        "tab": "9dbe319eba79c915",
+        "order": 11,
+        "disp": true,
+        "width": "7",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "9dbe319eba79c915",
+        "type": "ui_tab",
+        "name": "Weather Station v.5",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
