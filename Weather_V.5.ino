@@ -1,3 +1,5 @@
+/* Scheda esterna resettata causa blocco il 18/9/2023 alle ore 9:23 */
+
 //#include <WiFiNINA.h>
 #include <RTCZero.h>
 #include <Wire.h>
