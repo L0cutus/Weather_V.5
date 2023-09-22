@@ -1,5 +1,5 @@
 void alarmMatch() {
-  #ifdef LIVE
+  #ifdef LIVELED
     timerHandler();
   #endif
 

@@ -68,7 +68,7 @@ WiFiClient    wifiClient;  // HTTP
 // #define DEBUG3
 // #define DEBUG2
 // #define DEBUG1 
-// #define LIVE
+// #define LIVELED
 
 #ifdef DEBUG2 
   #define debug(x) Serial.print(x)
