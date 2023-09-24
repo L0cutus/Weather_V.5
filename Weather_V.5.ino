@@ -21,10 +21,10 @@
 #include <ArduinoHttpClient.h> // changed from HttpClient.h
 
 const short MAJORVERSION = 5;
-const short VERSION = 9;
+const short VERSION = 10;
 
 // My #DEFINEs
-#define USING_VSFTP_SERVER      true
+#define USING_VSFTP_SERVER true
 #define RED     25
 #define GREEN   26
 #define BLUE    27
@@ -56,13 +56,10 @@ const short VERSION = 9;
 // FTPClient_Generic(char* _serverAdress, char* _userName, char* _passWord, uint16_t _timeout = 10000);
 FTPClient_Generic ftp (ftp_server, ftp_user, ftp_pass, 10000);
 
-
 // Add a new Serial interface
 Uart mySerial (&sercom3, 1, 0, SERCOM_RX_PAD_1, UART_TX_PAD_0); // Create the new UART instance assigning it to pin 1 and 0
 
-
 WiFiClient    wifiClient;  // HTTP
-
 
 // DEBUG
 // #define DEBUG3
@@ -112,6 +109,31 @@ uint32_t intervalTimeUpdate = 172800;   // 48h
 char firmwareDir[]= "/firmware/";       // used by download firmware updates
 char fwChangelog[]="/files/firmware/";  // used to write firmware changes log
 
+/* Credit  @cotestatnt on arduino forum */
+struct windDirection_t {
+  float raw;
+  uint16_t degree;
+  const char* dir;
+};
+
+const windDirection_t windRose[16] PROGMEM = {
+  {3.00, 2700, "W"},
+  {2.81, 3150, "NW"},
+  {2.63, 2925, "WNW"},
+  {2.50, 0, "N"},
+  {2.23, 3375, "NNW"},
+  {2.00, 2250, "SW"},
+  {1.90, 2475, "WSW"},
+  {1.46, 450, "NE"},
+  {1.28, 2250, "NNE"},
+  {0.91, 1800, "S"},
+  {0.77, 2025, "SSW"},
+  {0.58, 1350, "SE"},
+  {0.39, 1475, "SSE"},
+  {0.29, 900, "E"},
+  {0.26, 675, "ENE"},
+  {0.20, 1125, "ESE"}
+};
 
 // PINs definitions
 const int pinWind = 7;
@@ -157,10 +179,10 @@ void setup() {
   pms.sleep();
 
   // on every reset save via FTP data and firmware version into
-  // srw/ftp/files/firmware/fw-changelog.log
+  // srv/ftp/files/firmware/fw-changelog.log
   logTheFirmware();
 
-  WiFi.end();  // disattiva il wifi
+  WiFi.end();  // disable wifi
 
   setupBME();
   setupBatteryCharger();
@@ -181,7 +203,6 @@ void setup() {
 
 void loop() {
   checkSendData();
-
   LowPower.deepSleep();
 }
 

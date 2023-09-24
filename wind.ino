@@ -47,36 +47,44 @@ void sendWindData()
 uint16_t readWindDir(void)
 {
   float readWindDir = (float) (3.3 / 4095.0) * analogRead(pinWindDir);
-  if (readWindDir >= 3.00)
-        return 2700;          // 270.0
-  else  if (readWindDir >= 2.81)
-          return 3150;        // 315.0
-  else  if (readWindDir >= 2.63)
-          return 2925;        // 292.5
-  else  if (readWindDir >= 2.50)
-          return 0;           // 0 
-  else  if (readWindDir >= 2.23)
-          return 3375;        // 337.5
-  else  if (readWindDir >= 2.00)
-          return 2250;        // 225.0
-  else  if (readWindDir >= 1.90)
-          return 2475;        // 247.5
-  else  if (readWindDir >= 1.46)
-          return 450;         // 45.0
-  else  if (readWindDir >= 1.28)
-          return 225;         // 22.5
-  else  if (readWindDir >= 0.91)
-          return 1800;        // 180.0
-  else  if (readWindDir >= 0.77)
-          return 2025;        // 202.5
-  else  if (readWindDir >= 0.58)
-          return 1350;        // 135.0
-  else  if (readWindDir >= 0.39)
-          return 1575;        // 157.5
-  else  if (readWindDir >= 0.29)
-          return 900;         // 90.0
-  else  if (readWindDir >= 0.26)
-          return 675;         // 67.5
-  else  if (readWindDir >= 0.20)
-          return 1125;        // 112.5
+
+  for (windDirection_t dir : windRose){
+    if (readWindDir >= dir.raw)  
+      return dir.degree;
+  }
+
+  /*
+    if (readWindDir >= 3.00)
+          return 2700;          // 270.0
+    else  if (readWindDir >= 2.81)
+            return 3150;        // 315.0
+    else  if (readWindDir >= 2.63)
+            return 2925;        // 292.5
+    else  if (readWindDir >= 2.50)
+            return 0;           // 0 
+    else  if (readWindDir >= 2.23)
+            return 3375;        // 337.5
+    else  if (readWindDir >= 2.00)
+            return 2250;        // 225.0
+    else  if (readWindDir >= 1.90)
+            return 2475;        // 247.5
+    else  if (readWindDir >= 1.46)
+            return 450;         // 45.0
+    else  if (readWindDir >= 1.28)
+            return 225;         // 22.5
+    else  if (readWindDir >= 0.91)
+            return 1800;        // 180.0
+    else  if (readWindDir >= 0.77)
+            return 2025;        // 202.5
+    else  if (readWindDir >= 0.58)
+            return 1350;        // 135.0
+    else  if (readWindDir >= 0.39)
+            return 1575;        // 157.5
+    else  if (readWindDir >= 0.29)
+            return 900;         // 90.0
+    else  if (readWindDir >= 0.26)
+            return 675;         // 67.5
+    else  if (readWindDir >= 0.20)
+            return 1125;        // 112.5
+  */
 }
