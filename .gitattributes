@@ -1,0 +1,18 @@
+# These files are text and should be normalized (convert crlf > lf)
+*.md        text
+*.ino       text
+*.h         text
+*.sh        text
+*.py        text
+*.ps1       text
+*.csh       text
+*.fish      text
+*.json      text
+
+# Images should be treated as binary
+# (binary is a macro for -text -diff)
+*.png       binary
+*.jepg      binary
+*.bin       binary
+*.tar.gz    binary
+*.pdf       binary
