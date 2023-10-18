@@ -13,7 +13,6 @@
 #include "defines.h"
 #include <FTPClient_Generic.h>
 #include "wiring_private.h"
-//#include <WiFiUdp.h>
 #include "PMS.h"
 #include <utility/wifi_drv.h>
 //#include <NTP.h>  // use it if you want time with DST
