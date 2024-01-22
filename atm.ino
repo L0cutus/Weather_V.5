@@ -25,7 +25,7 @@ void sendATMData()
   // tutti moltiplicati per 100 per eliminare i float meno gestibili
   sprintf(buff, "[{ \"epoch\":\"%u\",", rtc.getEpoch());
   ftp.Write(buff);
-  sprintf(buff, "\"temperature\":\"%u\",", (int)(temperature * 100));
+  sprintf(buff, "\"temperature\":\"%d\",", (int)(temperature * 100));
   ftp.Write(buff);
   sprintf(buff, "\"humidity\":\"%u\",", (int)(humidity * 100));
   ftp.Write(buff);

@@ -21,7 +21,7 @@
 #include <ArduinoHttpClient.h> // changed from HttpClient.h
 
 const short MAJORVERSION = 5;
-const short VERSION = 10;
+const short VERSION = 11;
 
 // My #DEFINEs
 #define USING_VSFTP_SERVER true
